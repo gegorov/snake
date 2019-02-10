@@ -1,4 +1,8 @@
 SNAKE_SPEED = 100;
+TILE_SIZE = 32;
+WINDOW_WIDTH = 1280;
+WINDOW_HEIGHT = 720;
+
 local snakeX = 0;
 local snakeY = 0;
 
@@ -7,6 +11,9 @@ local snakeMoving = 'rigth';
 function love.load()
   -- body
   love.window.setTitle('Snake50');
+  love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
+    fullscreen = false
+  })
 end
 
 function love.keypressed(key)
@@ -45,5 +52,5 @@ end
 function love.draw()
   -- body
   love.graphics.setColor(0, 1, 0, 1);
-  love.graphics.rectangle('fill', snakeX, snakeY, 16, 16);
+  love.graphics.rectangle('fill', snakeX, snakeY, TILE_SIZE, TILE_SIZE);
 end
