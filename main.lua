@@ -10,14 +10,15 @@ TILE_SNAKE_HEAD = 1;
 TILE_SNAKE_BODY = 2;
 TILE_APPLE = 3;
 
-SNAKE_SPEED = 100;
+-- time in secods that snake moves one tile 
+SNAKE_SPEED = 0.5;
 
 local tileGrid = {};
 
-local snakeX = 0;
-local snakeY = 0;
-
+local snakeX = 1;
+local snakeY = 1;
 local snakeMoving = 'rigth';
+local snakeTimer = 0;
 
 function love.load()
   -- body
@@ -51,15 +52,22 @@ end
 
 function love.update(dt)
   -- body
-  if snakeMoving == 'left' then
+  snakeTimer = snakeTimer + dt;
+
+  if snakeTimer >= SNAKE_SPEED then
     -- body
-    snakeX = snakeX - SNAKE_SPEED * dt;
-  elseif snakeMoving == 'right' then  
-    snakeX = snakeX + SNAKE_SPEED * dt;
-  elseif snakeMoving == 'up' then  
-    snakeY = snakeY - SNAKE_SPEED * dt;
-  elseif snakeMoving == 'down' then  
-    snakeY = snakeY + SNAKE_SPEED * dt;
+    if snakeMoving == 'left' then
+      -- body
+      snakeX = snakeX - 1;
+    elseif snakeMoving == 'right' then  
+      snakeX = snakeX + 1;
+    elseif snakeMoving == 'up' then  
+      snakeY = snakeY - 1;
+    elseif snakeMoving == 'down' then  
+      snakeY = snakeY + 1;
+    end
+
+    snakeTimer = 0.1;
   end
 end
 
@@ -92,7 +100,7 @@ end
 
 function drawSnake() 
   love.graphics.setColor(0, 1, 0, 1)
-  love.graphics.rectangle('fill', snakeX, snakeY, TILE_SIZE, TILE_SIZE);
+  love.graphics.rectangle('fill', (snakeX - 1) * TILE_SIZE, (snakeY - 1) * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 end
 
 function initializeGrid()
@@ -100,7 +108,7 @@ function initializeGrid()
   for y = 1, MAX_TILES_Y do
     table.insert( tileGrid, {} )
     for x = 1, MAX_TILES_X do
-      table.insert(tileGrid[y], TILE_EMPTY)
+      table.insert(tileGrid[y], TILE_EMPTY);
     end
   end
 
